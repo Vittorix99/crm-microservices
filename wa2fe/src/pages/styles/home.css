@@ -1,0 +1,25 @@
+/* Custom sidebar styling */
+body.home-bk {
+    background-color: white;  
+}
+
+  .fixed-card-size {
+    max-width: 300px;
+    min-width: 250px;
+  }
+/* home.css */
+/* home.css */
+.content-with-sidebar {
+    position: absolute; /* Posizionamento assoluto */
+    top: 0; /* Allinea al top */
+    left: 270px; /* 250px (sidebar) + 20px di margine */
+    right: 0; /* Si estende fino alla fine della pagina */
+    padding: 20px; /* Padding interno per il contenuto */
+    min-height: 100vh; /* Altezza minima della pagina */
+  }
+  
+  @media (max-width: 768px) {
+    .content-with-sidebar {
+      left: 240px; /* Adatta per sidebar più piccola su schermi ridotti */
+    }
+  }

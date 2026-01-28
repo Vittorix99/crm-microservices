@@ -1,0 +1,38 @@
+/* Altezza minima per schermi piccoli */
+.min-h-sm-400 {
+    min-height: 400px;
+  }
+  
+  @media (min-width: 768px) {
+    /* Altezza minima per schermi medi (tablet) */
+    .min-h-md-600 {
+      min-height: 600px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    /* Altezza minima per schermi grandi (desktop) */
+    .min-h-lg-800 {
+      min-height: 800px;
+    }
+  }
+  
+  /* Larghezza minima */
+  .min-w-sm-300 {
+    min-width: 300px;
+  }
+  
+  @media (min-width: 768px) {
+    /* Larghezza minima per schermi medi */
+    .min-w-md-500 {
+      min-width: 500px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    /* Larghezza minima per schermi grandi */
+    .min-w-lg-700 {
+      min-width: 700px;
+    }
+  }
+  

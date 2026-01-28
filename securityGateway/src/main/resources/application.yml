@@ -1,0 +1,121 @@
+crm-uri: http://localhost:8081
+document-uri: http://localhost:8082
+analytics-uri: http://localhost:8083
+home-uri: http://localhost:8080
+ui-uri: http://localhost:8080/ui
+vite-uri: http://localhost:5173
+cm-uri: http://localhost:8084
+jeycloak-issuer: http://localhost:9090/realms/projectWAII
+
+spring:
+  application:
+    name: lab5
+
+  datasource:
+    url: jdbc:postgresql://host.docker.internal:5432/mydatabase
+    username: myuser
+    password: ${SECURITY_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  cloud:
+    gateway:
+      mvc:
+        http-client:
+          type: autodetect
+        routes:
+          - id: contacts-service
+            uri: http://localhost:8081
+            predicates:
+              - Path=/contacts/**
+            filters:
+              - TokenRelay
+
+          - id: customers-service
+            uri: ${crm-uri}
+            predicates:
+              - Path=/customers/**
+            filters:
+              - TokenRelay
+
+          - id: documents-service
+            uri: ${document-uri}
+            predicates:
+              - Path=/documents/**
+            filters:
+              - TokenRelay
+
+          - id: analytics-service
+            uri: ${analytics-uri}
+            predicates:
+              - Path=/analytics/**
+            filters:
+              - TokenRelay
+
+          - id: jobOffers-service
+            uri: ${crm-uri}
+            predicates:
+              - Path=/joboffers/**
+            filters:
+              - TokenRelay
+
+          - id: messages-service
+            uri: ${crm-uri}
+            predicates:
+              - Path=/messages/**
+            filters:
+              - TokenRelay
+
+          - id: professionals-service
+            uri: ${crm-uri}
+            predicates:
+              - Path=/professionals/**
+            filters:
+              - TokenRelay
+
+          - id: comunication-service
+            uri: ${cm-uri}
+            predicates:
+              - Path=/gmail/**
+            filters:
+              - TokenRelay
+
+          - id: ui
+            uri: ${vite-uri}
+            predicates:
+              - Path=/ui/**
+
+          - id: home
+            uri: ${home-uri}
+            predicates:
+              - Path=/
+            filters:
+              - RedirectTo=301, ${ui-uri}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${jeycloak-issuer}
+
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${jeycloak-issuer}
+        registration:
+          authorization-code-client:
+            provider: keycloak
+            client-id: authorization-code-client
+            client-secret: ${OAUTH_AUTH_CODE_CLIENT_SECRET}
+            scope:
+              - openid
+              - offline_access
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/authorization-code-client
+
+          credential-flow-client:
+            client-id: credential-flow-client
+            client-secret: ${OAUTH_CLIENT_CREDENTIALS_SECRET}
+            scope: openid
+            authorization-grant-type: client_credentials
+            client-authentication-method: post
+            provider: keycloak

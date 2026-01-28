@@ -1,0 +1,9 @@
+issuer: http://localhost:9090/realms/projectWAII
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer}
+server:
+  port: 8081
