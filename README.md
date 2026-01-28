@@ -112,3 +112,20 @@ Service-specific:
 ## Notes
 - Database URLs in `application.properties` use `host.docker.internal`, which is convenient when Postgres runs in Docker and services run on the host. Adjust as needed if everything runs inside containers.
 - Kafka topics used by the system are created dynamically by the CRM service when publishing analytics events.
+
+## Secrets via local profile (recommended for dev)
+This repo uses **two profiles**:
+- default profile → uses placeholders and expects env vars
+- `local` profile → reads secrets from `application-local.*` files
+
+To run with local secrets:
+```bash
+SPRING_PROFILES_ACTIVE=local ./gradlew bootRun
+```
+
+Local-only files (ignored by git):
+- `.env` (Docker Compose variables)
+- `crm/src/main/resources/application-local.properties`
+- `analytics/src/main/resources/application-local.properties`
+- `communicationManager/src/main/resources/application-local.properties`
+- `securityGateway/src/main/resources/application-local.yml`
